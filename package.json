@@ -1,15 +1,22 @@
 {
   "name": "mcp-client-llm-server",
   "version": "1.0.0",
-  "description": "Proyecto de aprendizaje MCP - Servidor y Cliente de Calculadora",
+  "description": "Servidor y Cliente de Calculadora - servidor SSE y cliente AI",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
     "server": "npm run build && node build/server.js",
+    "server-sse": "npm run build && node build/server-sse.js",
+    "server-sse-simple": "npm run build && node build/server-sse-simple.js",
     "client": "npm run build && node build/client.js",
     "inspector": "npm run build && npx @modelcontextprotocol/inspector node build/server.js",
-    "test": "npm run client"
+    "inspector-sse": "npx @modelcontextprotocol/inspector --cli http://localhost:3001/sse --method tools/list",
+    "server-http": "npm run build && node build/server-http.js",
+    "inspector-http": "npx @modelcontextprotocol/inspector --http http://localhost:3002/mcp",
+    "inspector-http-cli": "npx @modelcontextprotocol/inspector --cli http://localhost:3002/mcp --method tools/list",
+    "test": "npm run client",
+    "dev-sse": "npm run build && npm run server-sse"
   },
   "keywords": [
     "mcp",
@@ -22,11 +29,15 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.16.0",
+    "@types/cors": "^2.8.19",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
+    "express": "^5.1.0",
     "openai": "^5.12.2",
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.0.14",
     "typescript": "^5.8.3"
   }
