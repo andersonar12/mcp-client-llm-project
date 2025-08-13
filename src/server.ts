@@ -10,36 +10,76 @@ const server = new McpServer({
 });
 
 // Herramienta 1: Suma
-server.tool("add", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
-  content: [{ type: "text", text: `${a} + ${b} = ${a + b}` }],
-}));
+server.tool(
+  "add",
+  {
+    description: "Suma dos números y devuelve el resultado",
+    a: z.number().describe("Primer número a sumar"),
+    b: z.number().describe("Segundo número a sumar"),
+  },
+  async ({ a, b }) => ({
+    content: [{ type: "text", text: `${a} + ${b} = ${a + b}` }],
+  })
+);
 
 // Herramienta 2: Resta
-server.tool("subtract", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
-  content: [{ type: "text", text: `${a} - ${b} = ${a - b}` }],
-}));
+server.tool(
+  "subtract",
+  {
+    description: "Resta el segundo número del primero",
+    a: z.number().describe("Minuendo (número del cual se resta)"),
+    b: z.number().describe("Sustraendo (número que se resta)"),
+  },
+  async ({ a, b }) => ({
+    content: [{ type: "text", text: `${a} - ${b} = ${a - b}` }],
+  })
+);
 
 // Herramienta 3: Multiplicación
-server.tool("multiply", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
-  content: [{ type: "text", text: `${a} × ${b} = ${a * b}` }],
-}));
+server.tool(
+  "multiply",
+  {
+    description: "Multiplica dos números",
+    a: z.number().describe("Primer factor"),
+    b: z.number().describe("Segundo factor"),
+  },
+  async ({ a, b }) => ({
+    content: [{ type: "text", text: `${a} × ${b} = ${a * b}` }],
+  })
+);
 
 // Herramienta 4: División
-server.tool("divide", { a: z.number(), b: z.number() }, async ({ a, b }) => {
-  if (b === 0) {
+server.tool(
+  "divide",
+  {
+    description: "Divide el primer número entre el segundo",
+    a: z.number().describe("Dividendo (número a dividir)"),
+    b: z.number().describe("Divisor (número entre el cual dividir)"),
+  },
+  async ({ a, b }) => {
+    if (b === 0) {
+      return {
+        content: [{ type: "text", text: "Error: No se puede dividir por cero" }],
+      };
+    }
     return {
-      content: [{ type: "text", text: "Error: No se puede dividir por cero" }],
+      content: [{ type: "text", text: `${a} ÷ ${b} = ${a / b}` }],
     };
   }
-  return {
-    content: [{ type: "text", text: `${a} ÷ ${b} = ${a / b}` }],
-  };
-});
+);
 
 // Herramienta 5: Potencia
-server.tool("power", { base: z.number(), exponent: z.number() }, async ({ base, exponent }) => ({
-  content: [{ type: "text", text: `${base}^${exponent} = ${Math.pow(base, exponent)}` }],
-}));
+server.tool(
+  "power",
+  {
+    description: "Calcula la potencia de un número (base elevada a un exponente)",
+    base: z.number().describe("Número base"),
+    exponent: z.number().describe("Exponente"),
+  },
+  async ({ base, exponent }) => ({
+    content: [{ type: "text", text: `${base}^${exponent} = ${Math.pow(base, exponent)}` }],
+  })
+);
 
 // Recurso: Saludo personalizado
 server.resource(
